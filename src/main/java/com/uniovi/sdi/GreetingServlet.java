@@ -10,6 +10,7 @@ public class GreetingServlet extends HttpServlet {
     int contador = 0;
     private final Object mutex = new Object();
 
+    //Get: Los parametros se envian en la propia URL. (localhost...)
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws
             ServletException, IOException {
@@ -37,8 +38,10 @@ public class GreetingServlet extends HttpServlet {
             contador++;
             out.println("Visits:"+contador+"<br>");
         }
-
     }
+
+
+    //Post: Los parametros, en lugar de a la URL, se envian en el cuerpo
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws
             ServletException, IOException {
