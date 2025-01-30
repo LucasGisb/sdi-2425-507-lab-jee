@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>  <!-- Se agrega la directiva "c" para usar JSTL con este prefijo -->
 <%@ page language="java" import="com.uniovi.sdi.*" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
 "http://www.w3.org/TR/html4/loose.dtd">
@@ -14,7 +15,8 @@
             type="application/javascript"></script>
 </head>
 <body>
-<%
+
+<!-- < %
     //Script Codigo de java insertado en html. Se muestra al USER y de no haber se REDIRECCIONA a LOGIN.JSp
     String user = (String) request.getSession().getAttribute("user");
     System.out.println("Usuario en sesión: " + user);
@@ -22,17 +24,27 @@
         // No hay usuario o no es admin
         response.sendRedirect("login.jsp");
     }
-%>
+%> Se sustituye los scripts tradicionales por las etiquetas JSTL -->
+<c:if test="${sessionScope.user != 'admin'}">
+    <c:redirect url="/login.jsp"/>
+</c:if>
 
 <jsp:useBean id="product" class="com.uniovi.sdi.Product"/>  <!-- Obligatorio para poder usar BEANS. En este caso, mi Product  -->
 <jsp:setProperty name="product" property="*"/> <!-- Trabajamos con todas las propiedades/atributos de este Bean Product -->
-<%
+
+<!-- < %
     //Segundo script
     if (product.getName() != null) {  //este product es el Product generado al enviar el cuestionario/forms de mas abajo. Fue enviado por POST
         new ProductsService().setNewProduct(product); //ANADE el producto a la bd
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
-%>
+%> Se sustituye los scripts tradicionales por las etiquetas JSTL -->
+<c:if test="${product.name != null}">
+    <jsp:useBean id="productsService" class="com.uniovi.sdi.ProductsService"/>
+    <jsp:setProperty name="productsService" property="newProduct" value="${product}"/>
+    <c:redirect url="/index.jsp"/>
+</c:if>
+
 <!-- Contenido -->
 <div class="container" id="main-container">  <!-- <div class="container" id="contenedor-principal">  -->
 

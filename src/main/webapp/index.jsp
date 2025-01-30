@@ -1,7 +1,10 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="utf-8"%>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>  <!-- NECESARIO PARA USAR JSTL -->
+
 <%@ page import="com.uniovi.sdi.Product" %>
 <%@ page import="com.uniovi.sdi.ProductsService" %>
 <%@ page import="java.util.List" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="utf-8"%>
+
 <html lang="en">
 <head>
     <title>Servlets</title>
@@ -44,22 +47,36 @@
 <div class="container" id="main-container">
     <h2>Productos</h2>
     <div class="row ">
-        <%  //Por todos los productos de la BD obtenidos por ProductsService getProducts, los metemos en la pagina
-            List<Product> listProducts = new ProductsService().getProducts();
-            for(Product product : listProducts){
-        %>
+            <!-- //Anterior script, ahora sustituido por JSTL
+                //Por todos los productos de la BD obtenidos por ProductsService getProducts, los metemos en la pagina
+                List<Product> listProducts = new ProductsService().getProducts();
+                for(Product product : listProducts){
+            -->
+        <!-- Nueva manera de hacer el liistado usando JSTL -->
+        <jsp:useBean id="productsService" class="com.uniovi.sdi.ProductsService"/>
+        <c:forEach var="product" begin="0" items="${productsService.products}">
+
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
             <div>
-                <img src="<%=product.getImage() %>" alt="" />
-                <div><%=product.getName() %></div>
-                <a href="AddToShoppingCart?product=<%=product.getName() %>" class="btn btn-default" >
-                    <%=product.getPrice() %> €
+                <!-- <img src="< %=product.getImage() %>" alt="" />
+                <div>< %=product.getName() %></div> -->
+                    <!--Actualizacion ahora recorriendo con JSTL -->
+                <img src="<c:out value="${product.image}"/>" alt=""/>
+                <div><c:out value="${product.name}"/></div>
+
+                <!-- <a href="AddToShoppingCart?product=< %=product.getName() %>" class="btn btn-default" > -->
+                    <!-- < %=product.getPrice() %> € -->
+                    <!--Actualizacion ahora recorriendo con JSTL -->
+                <a href="AddToShoppingCart?product=<c:out value="${product.name}"/>"
+                       class="btn btn-default">
+                    <c:out value="${product.price}"/> €
                 </a>
             </div>
         </div>
-        <%  //el anterior codigo html se repite segun el for de este codigo java
+        <!-- < %  //el anterior codigo html se repite segun el for de este codigo java
             }
-        %>
+        %> -->
+        </c:forEach>
     </div>
 </div>
 </body>
