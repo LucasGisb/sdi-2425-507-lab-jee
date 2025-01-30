@@ -1,3 +1,6 @@
+<%@ page import="com.uniovi.sdi.Product" %>
+<%@ page import="com.uniovi.sdi.ProductsService" %>
+<%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" pageEncoding="utf-8"%>
 <html lang="en">
 <head>
@@ -9,47 +12,55 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
+
 <body>
+<%
+    //Contador del Numero de visistas recibidas en la pagina. Se muestra en el nav barra de navegacion superior
+    Integer counter = (Integer) application.getAttribute("counter");
+    if (counter == null) {
+        counter = 0;
+    }
+    application.setAttribute("counter", counter + 1);
+%>
+<!-- Barra de Navegación superior -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="collapse navbar-collapse" id="my-navbarColor02">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+                <a class="nav-link" href="AddToShoppingCart">Carrito<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="login.jsp">Login<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="admin.jsp">Administrar productos<span class="sr-only">(current)</span></a>
+            </li>
+        </ul>
+        <div class="nav navbar-right">
+            <%=counter%> Visitas
+        </div>
+    </div>
+</nav>
 <!-- Contenido -->
 <div class="container" id="main-container">
     <h2>Productos</h2>
     <div class="row ">
+        <%  //Por todos los productos de la BD obtenidos por ProductsService getProducts, los metemos en la pagina
+            List<Product> listProducts = new ProductsService().getProducts();
+            for(Product product : listProducts){
+        %>
         <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
             <div>
-                <img src="images/iconfinder_apple.png" alt=""/>
-                <div>Manzanas</div>
-                <a href="AddToShoppingCart?product=apple" class="btn btn-default">
-                    2.05 €
+                <img src="<%=product.getImage() %>" alt="" />
+                <div><%=product.getName() %></div>
+                <a href="AddToShoppingCart?product=<%=product.getName() %>" class="btn btn-default" >
+                    <%=product.getPrice() %> €
                 </a>
             </div>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-            <div>
-                <img src="images/iconfinder_strawberry.png" alt=""/>
-                <div>Fresas</div>
-                <a href="AddToShoppingCart?product=strawberry" class="btn btn-default">
-                    2.20 €
-                </a>
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-            <div>
-                <img src="images/iconfinder_orange.png" alt=""/>
-                <div>Naranjas</div>
-                <a href="AddToShoppingCart?product=orange" class="btn btn-default">
-                    2.10 €
-                </a>
-            </div>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-            <div>
-                <img src="./images/iconfinder_bread.png" alt=""/>
-                <div>Pan</div>
-                <a href="AddToShoppingCart?product=bread" class="btn btn-default">
-                    0.80 €
-                </a>
-            </div>
-        </div>
+        <%  //el anterior codigo html se repite segun el for de este codigo java
+            }
+        %>
     </div>
 </div>
 </body>
