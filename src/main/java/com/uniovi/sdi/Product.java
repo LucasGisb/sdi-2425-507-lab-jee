@@ -3,6 +3,11 @@ public class Product {
     private String name;
     private String image;
     private float price;
+
+    //Este constructor vacio es obligatorio para poder una esta clase como un BEAN (atributos/propiedades que pueden leerse/escribirse )
+    public Product() {
+    }
+
     public Product(String name, String image, float price) {
         this.name = name;
         this.image = image;

@@ -23,22 +23,21 @@
         response.sendRedirect("login.jsp");
     }
 %>
+
+<jsp:useBean id="product" class="com.uniovi.sdi.Product"/>  <!-- Obligatorio para poder usar BEANS. En este caso, mi Product  -->
+<jsp:setProperty name="product" property="*"/> <!-- Trabajamos con todas las propiedades/atributos de este Bean Product -->
 <%
-    //Segundo script.- Obtiene la peticion del formulario de mas abajo y crea un Product y lo agrega mediante ProductsService
-    if (request.getParameter("name") != null &&
-            request.getParameter("image") != null &&
-            request.getParameter("price") != null) {
-        String name = request.getParameter("name");
-        String image = request.getParameter("image");
-        float price = Float.parseFloat(request.getParameter("price"));
-        Product product = new Product(name, image, price);
-        new ProductsService().setNewProduct(product);
+    //Segundo script
+    if (product.getName() != null) {  //este product es el Product generado al enviar el cuestionario/forms de mas abajo. Fue enviado por POST
+        new ProductsService().setNewProduct(product); //ANADE el producto a la bd
         request.getRequestDispatcher("index.jsp").forward(request, response);
     }
 %>
 <!-- Contenido -->
 <div class="container" id="main-container">  <!-- <div class="container" id="contenedor-principal">  -->
+
     <!-- Un formulario que solicita: Nombre, Imagen URL y el precio del producto solicitado. Se envia por POST  -->
+
     <h2>Agregar producto a la tienda</h2>
     <form class="form-horizontal" method="post" action="admin.jsp">
         <div class="form-group">

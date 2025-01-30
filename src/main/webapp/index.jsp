@@ -14,14 +14,11 @@
 </head>
 
 <body>
-<%
-    //Contador del Numero de visistas recibidas en la pagina. Se muestra en el nav barra de navegacion superior
-    Integer counter = (Integer) application.getAttribute("counter");
-    if (counter == null) {
-        counter = 0;
-    }
-    application.setAttribute("counter", counter + 1);
-%>
+
+<!-- Contador del Numero de visistas recibidas en la pagina. Se muestra en el nav barra de navegacion superior. Antes script, ahora Bean -->
+<jsp:useBean id="counter" class="com.uniovi.sdi.Counter"  scope="application"/>  <!-- IMP: Este SCOPE para que el contador sea comun entre todos los usuarios (es decir, de la aplicacion) -->
+<jsp:setProperty name="counter" property="increase" value="1"/> <!-- Incrementa el contador de la pagina por 1-->
+
 <!-- Barra de Navegación superior -->
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="collapse navbar-collapse" id="my-navbarColor02">
@@ -37,7 +34,9 @@
             </li>
         </ul>
         <div class="nav navbar-right">
-            <%=counter%> Visitas
+            <%-- <%=counter%> Visitas --%>
+            <!-- Cambiado por el Bean siguiente -->
+            <jsp:getProperty name="counter" property="total"/> Visitas
         </div>
     </div>
 </nav>
