@@ -32,6 +32,12 @@ public class ServletShoppingCart extends HttpServlet {
         if (product != null) {
             addToShoppingCart(cart, product);
         }
+
+        // Retornar la Vista con parámetro "selectedItems"
+        request.setAttribute("selectedItems", cart);
+        getServletContext().getRequestDispatcher("/cart.jsp").forward(request, response);
+
+        /* Eliminado para aplicar Modelo-Vista-Controlador
         response.setCharacterEncoding("UTF-8");
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
@@ -40,6 +46,7 @@ public class ServletShoppingCart extends HttpServlet {
         out.println("<BODY>");
         out.println(shoppingCartToHtml(cart) + "<br>");
         out.println("<a href=\"index.jsp\">Volver</a></BODY></HTML>");
+         */
     }
 
     //Metodos auxiliares para la llamada doGet:
