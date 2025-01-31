@@ -35,6 +35,10 @@
             <li class="nav-item ">
                 <a class="nav-link" href="admin.jsp">Administrar productos<span class="sr-only">(current)</span></a>
             </li>
+            <!-- Nuevo Ej comp 1 -->
+            <li class="nav-item">
+                <a class="nav-link" href="products">Productos<span class="sr-only">(current)</span></a>
+            </li>
         </ul>
         <div class="nav navbar-right">
             <%-- <%=counter%> Visitas --%>
