@@ -71,10 +71,18 @@
                 <!-- <a href="AddToShoppingCart?product=< %=product.getName() %>" class="btn btn-default" > -->
                     <!-- < %=product.getPrice() %> € -->
                     <!--Actualizacion ahora recorriendo con JSTL -->
+                <!--
                 <a href="AddToShoppingCart?product=<c:out value="${product.name}"/>"
                        class="btn btn-default">
                     <c:out value="${product.price}"/> €
                 </a>
+                -->
+                <a href="AddToShoppingCart?product=<c:out value="${product.name}"/>
+                   &action=add"
+                   class="btn btn-default">
+                    <c:out value="${product.price}"/> €
+                </a>
+
             </div>
         </div>
         <!-- < %  //el anterior codigo html se repite segun el for de este codigo java

@@ -19,6 +19,7 @@ public class ServletShoppingCart extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws
             ServletException, IOException {
+
         HttpSession session = request.getSession();
         HashMap<String, Integer> cart =
                 (HashMap<String, Integer>) session.getAttribute("cart");
@@ -27,26 +28,26 @@ public class ServletShoppingCart extends HttpServlet {
             cart = new HashMap<String, Integer>();
             session.setAttribute("cart", cart);
         }
-        //se busca en el carrito segun la peticion del usuario
+
+        String action = request.getParameter("action");
+
         String product = request.getParameter("product");
-        if (product != null) {
-            addToShoppingCart(cart, product);
+
+        if(action.equals("add")) {
+            if (product != null) {
+                addToShoppingCart(cart, product);
+            }
+        }else if(action.equals("delete")){
+            if (product != null) {
+                deleteItem(cart, product);
+            }
         }
+
 
         // Retornar la Vista con parámetro "selectedItems"
         request.setAttribute("selectedItems", cart);
         getServletContext().getRequestDispatcher("/cart.jsp").forward(request, response);
 
-        /* Eliminado para aplicar Modelo-Vista-Controlador
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("text/html");
-        PrintWriter out = response.getWriter();
-        out.println("<HTML>");
-        out.println("<HEAD><TITLE>Tienda SDI: Cesta de la compra</TITLE></HEAD>");
-        out.println("<BODY>");
-        out.println(shoppingCartToHtml(cart) + "<br>");
-        out.println("<a href=\"index.jsp\">Volver</a></BODY></HTML>");
-         */
     }
 
     //Metodos auxiliares para la llamada doGet:
@@ -72,5 +73,13 @@ public class ServletShoppingCart extends HttpServlet {
     }
 
     //
+
+    private void deleteItem(HashMap<String, Integer> cart, String productKey) {  //porductKey = Nombre del producto a buscar/introducir
+        if(cart.get(productKey) > 1){
+            cart.put(productKey, cart.get(productKey) - 1);
+        }else if(cart.get(productKey) == 1){
+            cart.remove(productKey);
+        }
+    }
 
 }

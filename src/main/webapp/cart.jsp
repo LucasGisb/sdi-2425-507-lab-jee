@@ -40,7 +40,11 @@
   <ul>
     <c:forEach var="item" items="${selectedItems}">
       <tr>
-        <li>${item.key} - ${item.value} </li>
+        <li>${item.key} - ${item.value} <!-- Nuevo Ej comp 1 -->
+          <a href="AddToShoppingCart?product=<c:out value="${item.key}"/>&action=delete" class="btn btn-default">
+            Eliminar del carrito
+          </a>
+        </li>
       </tr>
     </c:forEach>
   </ul>
